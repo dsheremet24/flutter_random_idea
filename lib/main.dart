@@ -337,30 +337,33 @@ class HistoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       flex: 3,
-      child: Center(
-      child: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(5),
+      child: Container(
+        alignment: Alignment.center, // Ensures the child is centered
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: 300, // Limits the width for better centering
           ),
-          for (var pair in appState.allWordPair)
-              ListTile(
-                leading: IconButton(
-                  icon: appState.favorites.contains(pair)
-                      ? Icon(Icons.favorite, size: 12)
-                      : SizedBox(),
-                  onPressed: () {
-                    appState.toggleFavorite(pair);
-                  },
-
-                ),
-                // leading: appState.favorites.contains(pair)? Icon(Icons.favorite, size: 12) : SizedBox(),
-                title: Text(pair.asLowerCase),
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(5),
               ),
-        ],
+              for (var pair in appState.allWordPair)
+                ListTile(
+                  leading: IconButton(
+                    icon: appState.favorites.contains(pair)
+                        ? Icon(Icons.favorite, size: 12)
+                        : SizedBox(),
+                    onPressed: () {
+                      appState.toggleFavorite(pair);
+                    },
+                  ),
+                  title: Text(pair.asLowerCase),
+                ),
+            ],
+          ),
+        ),
       ),
-      ),
-
     );
   }
 }
