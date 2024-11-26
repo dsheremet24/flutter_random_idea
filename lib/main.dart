@@ -65,16 +65,27 @@ class MyAppState extends ChangeNotifier {
     }
   }
 
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
+  void toggleFavorite([WordPair? pair]) {
+    pair = pair ?? current;
+    if (favorites.contains(pair)) {
+      favorites.remove(pair);
     } else {
-      favorites.add(current);
+      favorites.add(pair);
     }
 
     notifyListeners();
     print(favorites);
   }
+  // void toggleFavorite() {
+  //   if (favorites.contains(current)) {
+  //     favorites.remove(current);
+  //   } else {
+  //     favorites.add(current);
+  //   }
+  //
+  //   notifyListeners();
+  //   print(favorites);
+  // }
 
   void removeFavorite(pair) {
     favorites.remove(pair);
@@ -160,6 +171,7 @@ class FavoritesPage extends StatelessWidget {
         )
       ],
     );
+
   }
 }
 
@@ -280,6 +292,8 @@ class GeneratorPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          HistoryView(appState: appState),
+          SizedBox(height: 10),
           BigCard(pair: pair),
           SizedBox(height: 10),
           Row(
@@ -305,8 +319,48 @@ class GeneratorPage extends StatelessWidget {
               ),
             ],
           ),
+        ],//Column children []
+      ),
+    );
+  }
+}
+
+class HistoryView extends StatelessWidget {
+  const HistoryView({
+    super.key,
+    required this.appState,
+  });
+
+  final MyAppState appState;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 3,
+      child: Center(
+      child: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(5),
+          ),
+          for (var pair in appState.allWordPair)
+              ListTile(
+                leading: IconButton(
+                  icon: appState.favorites.contains(pair)
+                      ? Icon(Icons.favorite, size: 12)
+                      : SizedBox(),
+                  onPressed: () {
+                    appState.toggleFavorite(pair);
+                  },
+
+                ),
+                // leading: appState.favorites.contains(pair)? Icon(Icons.favorite, size: 12) : SizedBox(),
+                title: Text(pair.asLowerCase),
+              ),
         ],
       ),
+      ),
+
     );
   }
 }
