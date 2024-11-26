@@ -100,9 +100,6 @@ class FavoritesPage extends StatelessWidget {
     var appState = context.watch<MyAppState>();
 
     var theme = Theme.of(context);
-    var style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary,
-    );
 
     if(appState.favorites.isEmpty) {
       return Center(
@@ -335,6 +332,13 @@ class HistoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.primary,
+      fontSize: 20,      // Optional: Set font size
+      fontWeight: FontWeight.bold, // Optional: Set font weight
+    );
+
     return Expanded(
       flex: 3,
       child: Container(
@@ -358,7 +362,7 @@ class HistoryView extends StatelessWidget {
                       appState.toggleFavorite(pair);
                     },
                   ),
-                  title: Text(pair.asLowerCase),
+                  title: appState.current == pair? Text(pair.asLowerCase,  style: style) : Text(pair.asLowerCase),
                 ),
             ],
           ),
