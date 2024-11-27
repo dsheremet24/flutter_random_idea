@@ -76,16 +76,6 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
     print(favorites);
   }
-  // void toggleFavorite() {
-  //   if (favorites.contains(current)) {
-  //     favorites.remove(current);
-  //   } else {
-  //     favorites.add(current);
-  //   }
-  //
-  //   notifyListeners();
-  //   print(favorites);
-  // }
 
   void removeFavorite(pair) {
     favorites.remove(pair);
